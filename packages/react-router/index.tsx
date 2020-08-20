@@ -444,6 +444,23 @@ export function useLocation(): Location {
 }
 
 /**
+ * Returns the current action, which represents the type of change to a
+ * location value.
+ *
+ * @see https://github.com/ReactTraining/history/tree/master/docs/api-reference.md#action
+ */
+export function useAction(): Action {
+  invariant(
+    useInRouterContext(),
+    // TODO: This error is probably because they somehow have 2 versions of the
+    // router loaded. We can help them understand how to avoid that.
+    `useLocation() may be used only in the context of a <Router> component.`
+  );
+
+  return React.useContext(LocationContext).action as Action;
+}
+
+/**
  * Returns true if the URL for the given "to" value matches the current URL.
  * This is useful for components that need to know "active" state, e.g.
  * <NavLink>.
